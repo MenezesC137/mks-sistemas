@@ -1,0 +1,35 @@
+import React from "react";
+import { IoClose } from "react-icons/io5";
+import ItemCart from "../ItemCart";
+
+interface CartProps {
+  close: () => void;
+}
+
+export default function Cart({ close }: CartProps) {
+  return (
+    <div className="flex flex-col min-h-full w-4/12">
+      <div className="flex flex-col h-full w-full bg-primary p-6">
+        <div className="flex flex-row w-full justify-between h-10">
+          <h1 className="text-2xl text-white font-bold">Carrinho de compras</h1>
+          <button
+            onClick={close}
+            className="flex bg-black rounded-full h-10 items-center justify-center w-10"
+          >
+            <IoClose color="#fff" size={26} />
+          </button>
+        </div>
+        <div className="flex flex-col h-[600px] pt-6 overflow-auto gap-4 scrollbar-hide">
+          <ItemCart />
+        </div>
+        <div className="flex h-10 text-white font-bold text-2xl items-end justify-between">
+          <span>Total:</span>
+          <span>R$ 0,00</span>
+        </div>
+      </div>
+      <button className="bg-black w-full h-24 min-h-1/6">
+        <span className="text-white font-bold text-2xl">Finalizar compra</span>
+      </button>
+    </div>
+  );
+}

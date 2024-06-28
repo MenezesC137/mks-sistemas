@@ -30,7 +30,7 @@ export default function Products() {
             <div className="flex flex-col justify-between h-full  p-4">
               <div className="flex h-1/2 items-center justify-center">
                 <Image
-                  className="w-32 h-w-32"
+                  className="w-32 h-32"
                   src={product?.photo}
                   alt="product"
                   width={140}
