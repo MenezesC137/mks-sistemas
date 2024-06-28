@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api_client from "@/config/api_client";
-import { IProducts } from "@/types/Product";
+import { IProduct } from "@/types/Product";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 
-export default function ItemCart() {
+export default function ItemCart({ item }: { item: IProduct }) {
   const [quantity, setQuantity] = useState(1);
 
-  const [products, setProducts] = useState([] as IProducts[]);
+  const [products, setProducts] = useState({} as IProduct[]);
 
   async function getProduct() {
     const response = await api_client.get(
@@ -38,16 +38,14 @@ export default function ItemCart() {
       <section className="w-1/5">
         <Image
           className="w-20 h-20"
-          src={products && products[6]?.photo}
+          src={item?.photo}
           alt="product"
           width={140}
           height={100}
         />
       </section>
       <section className="flex flex-col w-2/5">
-        <span className="font-normal text-sm">
-          {products && products[6]?.name}
-        </span>
+        <span className="font-normal text-sm">{item?.name}</span>
       </section>
       <section className="flex flex-col w-1/5 h-24 items-center justify-center p-2">
         <span className="w-full text-[7px]">Qtd.</span>
@@ -68,7 +66,7 @@ export default function ItemCart() {
         </div>
       </section>
       <span className="text-sm font-bold w-1/5">
-        R${products && parseInt(products[6]?.price) * quantity}
+        R${products && parseInt(item.price) * quantity}
       </span>
     </div>
   );

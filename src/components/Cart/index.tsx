@@ -1,12 +1,16 @@
+"use client";
 import React from "react";
-import { IoClose } from "react-icons/io5";
 import ItemCart from "../ItemCart";
+import { IoClose } from "react-icons/io5";
+import { useCartStore } from "@/store/CartStore";
 
 interface CartProps {
   close: () => void;
 }
 
 export default function Cart({ close }: CartProps) {
+  const Items = useCartStore((state) => state.items);
+
   return (
     <div className="flex flex-col min-h-full w-4/12">
       <div className="flex flex-col h-full w-full bg-primary p-6">
@@ -20,7 +24,9 @@ export default function Cart({ close }: CartProps) {
           </button>
         </div>
         <div className="flex flex-col h-[600px] pt-6 overflow-auto gap-4 scrollbar-hide">
-          <ItemCart />
+          {Items.map((item) => (
+            <ItemCart key={item.id} item={item} />
+          ))}
         </div>
         <div className="flex h-10 text-white font-bold text-2xl items-end justify-between">
           <span>Total:</span>
