@@ -60,6 +60,7 @@ export default function Products() {
                   price: product.price,
                   description: product.description,
                   photo: product.photo,
+                  quantity: 1,
                 })
               }
               className="flex flex-row items-center justify-center gap-3 bg-primary text-white h-[14%] rounded-b-lg"

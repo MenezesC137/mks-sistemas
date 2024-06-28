@@ -1,32 +1,28 @@
-import React, { useEffect, useState } from "react";
-import api_client from "@/config/api_client";
+import React, { use, useState } from "react";
 import { IProduct } from "@/types/Product";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
+import { useCartStore } from "@/store/CartStore";
 
 export default function ItemCart({ item }: { item: IProduct }) {
   const [quantity, setQuantity] = useState(1);
 
-  const [products, setProducts] = useState({} as IProduct[]);
+  const [updateQuantity, Items] = useCartStore((state) => [
+    state.updateQuantity,
+    state.items,
+  ]);
 
-  async function getProduct() {
-    const response = await api_client.get(
-      "/products?page=1&rows=10&sortBy=id&orderBy=ASC"
-    );
-    setProducts(response.data.products);
-  }
-
-  useEffect(() => {
-    getProduct();
-  }, []);
+  console.log(Items);
 
   const handleQuantity = (symbol: number) => {
     if (symbol === 1) {
       if (quantity > 1) {
         setQuantity(quantity - 1);
+        updateQuantity({ ...item, quantity: quantity - 1 }, 1);
       }
     } else {
       setQuantity(quantity + 1);
+      updateQuantity({ ...item, quantity: quantity + 1 }, 2);
     }
   };
 
@@ -56,7 +52,7 @@ export default function ItemCart({ item }: { item: IProduct }) {
           >
             -
           </button>
-          <span className="border-x text-xs px-2">{quantity}</span>
+          <span className="border-x text-xs px-2">{item.quantity}</span>
           <button
             onClick={() => handleQuantity(2)}
             className="text-base font-extralight"
@@ -66,7 +62,7 @@ export default function ItemCart({ item }: { item: IProduct }) {
         </div>
       </section>
       <span className="text-sm font-bold w-1/5">
-        R${products && parseInt(item.price) * quantity}
+        R${parseInt(item.price) * item.quantity}
       </span>
     </div>
   );

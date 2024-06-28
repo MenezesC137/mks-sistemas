@@ -11,6 +11,14 @@ interface CartProps {
 export default function Cart({ close }: CartProps) {
   const Items = useCartStore((state) => state.items);
 
+  const handleTotal = () => {
+    let total = 0;
+    Items.map((item) => {
+      total += parseFloat(item.price) * item.quantity;
+    });
+    return total;
+  };
+
   return (
     <div className="flex flex-col min-h-full w-4/12">
       <div className="flex flex-col h-full w-full bg-primary p-6">
@@ -30,7 +38,7 @@ export default function Cart({ close }: CartProps) {
         </div>
         <div className="flex h-10 text-white font-bold text-2xl items-end justify-between">
           <span>Total:</span>
-          <span>R$ 0,00</span>
+          <span>R$ {handleTotal()}</span>
         </div>
       </div>
       <button className="bg-black w-full h-24 min-h-1/6">
