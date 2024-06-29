@@ -1,18 +1,16 @@
-import React, { use, useState } from "react";
-import { IProduct } from "@/types/Product";
+import React, { useState } from "react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
+import { IProduct } from "@/types/Product";
 import { useCartStore } from "@/store/CartStore";
 
 export default function ItemCart({ item }: { item: IProduct }) {
   const [quantity, setQuantity] = useState(1);
 
-  const [updateQuantity, Items] = useCartStore((state) => [
+  const [updateQuantity, removeItem] = useCartStore((state) => [
     state.updateQuantity,
-    state.items,
+    state.removeItem,
   ]);
-
-  console.log(Items);
 
   const handleQuantity = (symbol: number) => {
     if (symbol === 1) {
@@ -28,7 +26,10 @@ export default function ItemCart({ item }: { item: IProduct }) {
 
   return (
     <div className="relative flex h-24 w-[98%] bg-white rounded-lg items-center gap-2">
-      <button className="absolute flex -inset-y-1 top-0 right-0 bg-black rounded-full items-center justify-center h-5 w-5 -mt-1 -mr-1 overflow-hidden">
+      <button
+        onClick={() => removeItem(item)}
+        className="absolute flex -inset-y-1 top-0 right-0 bg-black rounded-full items-center justify-center h-5 w-5 -mt-1 -mr-1 overflow-hidden"
+      >
         <IoClose color="#fff" size={14} />
       </button>
       <section className="w-1/5">

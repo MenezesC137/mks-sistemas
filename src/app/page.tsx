@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import Products from "@/components/Products";
-import { IoCart } from "react-icons/io5";
 import Cart from "@/components/Cart";
+import { IoCart } from "react-icons/io5";
+import Products from "@/components/Products";
+import { useCartStore } from "@/store/CartStore";
 
 export default function Home() {
   const [openCart, setOpenCart] = useState(false);
+  const Items = useCartStore((state) => state.items);
   return (
     <main className="flex flex-col h-screen bg-white items-center">
       {openCart && (
@@ -27,7 +29,7 @@ export default function Home() {
           className="bg-white flex flex-row w-20 h-10 rounded-lg items-center justify-between px-4"
         >
           <IoCart size={20} />
-          <p className="font-bold text-lg">0</p>
+          <p className="font-bold text-lg">{Items.length}</p>
         </button>
       </section>
       <section className="flex h-full w-[1000px] items-center pb-8">
