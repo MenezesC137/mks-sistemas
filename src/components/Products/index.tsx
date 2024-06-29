@@ -1,12 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import api_client from "@/config/api_client";
-import { IProducts } from "@/types/Product";
+import { IProduct } from "@/types/Product";
 import Image from "next/image";
 import { LuShoppingBag } from "react-icons/lu";
+import { useCartStore } from "@/store/CartStore";
 
 export default function Products() {
-  const [products, setProducts] = useState([] as IProducts[]);
+  const addItem = useCartStore((state) => state.addItem);
+
+  const [products, setProducts] = useState([] as IProduct[]);
 
   async function getProduct() {
     const response = await api_client.get(
@@ -22,7 +25,7 @@ export default function Products() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-4 h-[600px]">
       {products &&
-        products.map((product: IProducts) => (
+        products.map((product: IProduct) => (
           <section
             key={product.id}
             className="flex flex-col w-56 h-72 rounded-lg shadow-2xl bg-white"
@@ -49,7 +52,19 @@ export default function Products() {
                 </p>
               </div>
             </div>
-            <button className="flex flex-row items-center justify-center gap-3 bg-primary text-white h-[14%] rounded-b-lg">
+            <button
+              onClick={() =>
+                addItem({
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  description: product.description,
+                  photo: product.photo,
+                  quantity: 1,
+                })
+              }
+              className="flex flex-row items-center justify-center gap-3 bg-primary text-white h-[14%] rounded-b-lg"
+            >
               <LuShoppingBag />
               <p className="font-semibold">COMPRAR</p>
             </button>
